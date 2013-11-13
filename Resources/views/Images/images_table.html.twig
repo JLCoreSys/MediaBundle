@@ -1,0 +1,69 @@
+{% if table_id is not defined %}{% set table_id = 'images-table' %}{% endif %}
+{% if show_title is not defined %}{% set show_title = true %}{% endif %}
+{% if show_width is not defined %}{% set show_width = true %}{% endif %}
+{% if show_height is not defined %}{% set show_height = true %}{% endif %}
+{% if show_rating is not defined %}{% set show_rating = true %}{% endif %}
+{% if show_comments is not defined %}{% set show_comments = true %}{% endif %}
+{% if show_position is not defined %}{% set show_position = true %}{% endif %}
+{% if show_active is not defined %}{% set show_active = true %}{% endif %}
+{% if show_size is not defined %}{% set show_size = false %}{% endif %}
+<table class="table table-striped table-bordered table-hover table-checkable table-responsive datatable dataTable" data-display-length="25" id="{{ table_id }}" aria-describedby="{{ table_id }}_info">
+    <thead>
+    <tr role="row">
+        <th class="checkbox-column sorting_disabled" role="columnheader" rowspan="1" colspan="1" aria-label="">
+            <div class="checker">
+                <span>
+                    <input type="checkbox" class="uniform" data-master-checkbox>
+                </span>
+            </div>
+        </th>
+        <th data-class="expand" class="sorting" role="columnheader" tabindex="0" aria-controls="{{ table_id }}" rowspan="1" colspan="1" aria-label="Image" width="80">
+            Image
+        </th>
+        {% if show_title %}
+        <th data-class="expand" class="sorting" role="columnheader" tabindex="0" aria-controls="{{ table_id }}" rowspan="1" colspan="1" aria-label="Title">
+            Title
+        </th>
+        {% endif %}
+        {% if show_rating %}
+            <th data-hide="phone" class="sorting" role="columnheader" tabindex="0" aria-controls="{{ table_id }}" rowspan="1" colspan="1" aria-label="Width" width="80">
+                Rating
+            </th>
+        {% endif %}
+        {% if show_width %}
+        <th data-hide="phone" class="sorting" role="columnheader" tabindex="0" aria-controls="{{ table_id }}" rowspan="1" colspan="1" aria-label="Width" width="80">
+            Width
+        </th>
+        {% endif %}
+        {% if show_height %}
+        <th data-hide="phone,tablet" class="sorting" role="columnheader" tabindex="0" aria-controls="{{ table_id }}" rowspan="1" colspan="1" aria-label="Height" width="80">
+            Height
+        </th>
+        {% endif %}
+        {% if show_size %}
+            <th data-hide="phone,tablet" class="sorting" role="columnheader" tabindex="0" aria-controls="{{ table_id }}" rowspan="1" colspan="1" aria-label="Height" width="130">
+                Size
+            </th>
+        {% endif %}
+        {% if show_active %}
+            <th data-hide="phone" class="sorting" role="columnheader" tabindex="0" aria-controls="{{ table_id }}" rowspan="1" colspan="1" aria-label="Width" width="80">
+                Active
+            </th>
+        {% endif %}
+        {% if show_comments %}
+            <th data-hide="phone" class="sorting" role="columnheader" tabindex="0" aria-controls="{{ table_id }}" rowspan="1" colspan="1" aria-label="Width" width="100">
+                Comments
+            </th>
+        {% endif %}
+        <th data-hide="phone,tablet" class="sorting" role="columnheader" tabindex="0" aria-controls="{{ table_id }}" rowspan="1" colspan="1" aria-label="Options" width="125">
+            Actions
+        </th>
+    </tr>
+    </thead>
+
+    <tbody role="alert" aria-live="polite" aria-relevant="all">
+        {% for i,image in images %}
+            {% include 'CoreSysMediaBundle:Images:images_table_row.html.twig' %}
+        {% endfor %}
+    </tbody>
+</table>

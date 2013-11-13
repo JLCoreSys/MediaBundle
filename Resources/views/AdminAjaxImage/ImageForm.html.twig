@@ -1,0 +1,13 @@
+{% include 'CoreSysMediaBundle:Images:ImageForm.html.twig' %}
+<script type="application/javascript">
+    $(document).ready(function(){
+        if(typeof dataPostDesc == 'function') { dataPostDesc(); }
+        $('#{{ form_id }}').ajaxForm({
+            success: function(res, status) {
+                if(typeof formSavedCallback == 'function') {
+                    formSavedCallback(res,status,{{ new ? 'true' : 'false' }});
+                }
+            }
+        });
+    });
+</script>

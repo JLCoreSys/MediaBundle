@@ -1,0 +1,16 @@
+{% if image_id is not defined %}{% set image_id = null %}{% endif %}
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">{{ image_id ? '(' ~ image_id ~ ') ' }}{{ title }}</h4>
+        </div>
+        <div class="modal-body">
+            {% include 'CoreSysMediaBundle:AdminAjaxImage:ImageForm.html.twig' %}
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" onclick="$('#{{ form_id }}').submit();">Save</button>
+        </div>
+    </div>
+</div>

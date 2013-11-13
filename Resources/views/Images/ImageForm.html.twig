@@ -1,0 +1,25 @@
+{% if action is not defined %}{% set action = null %}{% endif %}
+{% if method is not defined %}{% set method = 'post' %}{% endif %}
+{% if show_submit is not defined %}{% set show_submit = true %}{% endif %}
+{% if form_id is not defined %}{% set form_id = 'image-form' %}{% endif %}
+{% if form_class is not defined %}{% set form_class = '' %}{% endif %}
+<form action="{{ action }}" method="{{ method }}" {{ form_enctype( form ) }} id="{{ form_id }}" class="form {{ form_class }}">
+    <div class="row">
+        <div class="col-md-8">
+            {{ form_row( form.title ) }}
+        </div>
+        <div class="col-md-4">
+            {{ form_row( form.slug ) }}
+        </div>
+    </div>
+    {{ form_row( form.description ) }}
+    {{ form_rest( form ) }}
+    {% if show_submit %}
+        <div class="row">
+            <div class="col-md-12">
+                <input type="submit" class="btn btn-primary pull-right" value="submit" />
+            </div>
+        </div>
+    {% endif %}
+</form>
+{{ form_javascript( form ) }}

@@ -1,0 +1,111 @@
+<div class="tabbable tabbable-custom">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#image-general" data-toggle="tab">General</a></li>
+        <li><a href="#image-stats" data-toggle="tab">Statistics</a></li>
+        <li><a href="#image-sizes" data-toggle="tab">Sizes</a></li>
+        <li><a href="#image-preview" data-toggle="tab">Preview</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane fade in active" id="image-general">
+            <div class="medium-margin">
+                <div class="row">
+                    <div class="col-md-12">
+                        <strong>Title: </strong><span class="text-primary">{{ image.title }}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <strong>Filename: </strong>{{ image.filename }}
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Uploaded: </strong>{{ image.createdAt( 'M d Y, g:i a' ) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6"><strong>Type: </strong>{{ image.type }}</div>
+                    <div class="col-md-6"><strong>Active: </strong><span class="badge">{{ image.active ? 'Active' : 'InActive' }}</span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6"><strong>Width: </strong>{{ image.width }}px</div>
+                    <div class="col-md-6"><strong>Height: </strong>{{ image.height }}px</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6"><strong>Allow PNG: </strong><i class="icon-{{ image.allowPng ? 'check green' : 'remove red' }}"></i></div>
+                    <div class="col-md-6"><strong>PNG: </strong><i class="icon-{{ image.png ? 'check green' : 'remove red' }}"></i></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6"><strong>Allow GIF: </strong><i class="icon-{{ image.allowGif ? 'check green' : 'remove red' }}"></i></div>
+                    <div class="col-md-6"><strong>GIF: </strong><i class="icon-{{ image.gif ? 'check green' : 'remove red' }}"></i></div>
+                </div>
+                <div class="row small-margin-top small-margin-bottom">
+                    <div class="col-md-12 text-center">
+                        {% for size,width in image.sizes %}
+                            {% if image.hasSize(size) %}
+                                <span class="badge">{{ size }}</span>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="image-stats">
+            <div class="medium-margin">
+                <div class="row">
+                    <div class="col-md-6">
+                        <strong>Rating: </strong>{{ numberFormat( image.rating, 2) }}
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Ratings: </strong>{{ image.ratingsCount }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6"><strong>Views: </strong>{{ image.views }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="image-sizes">
+            <div class="sizes-container">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <span class="label label-primary pull-right">{{ image.width }}x{{ image.height }}</span>
+                        <h3 class="no-margin-top">Original</h3>
+                        <div class="well well-sm no-margin-top no-margin-bottom" style="max-width:100%"><strong>Internal: </strong><br>{{ app.request.getSchemeAndHttpHost ~ image.getUrl( 'site', 'original', true ) }}</div>
+                        <div class="well well-sm no-margin-top small-margin-bottom" style="max-width:100%"><strong>External (tracked): </strong><br>{{ url( 'media_image_size', {'size':'original','slug': image.id } ) }}.{{ image.ext }}</div>
+                    </li>
+                    {% for size,width in image.getSizes %}
+                        <li class="list-group-item">
+                            <span class="label label-primary pull-right">{{ width }}x{{ image.getSizeHeight(size) }}</span>
+                            <h3 class="no-margin-top">{{ size }}</h3>
+                            <div class="well well-sm no-margin-top no-margin-bottom" style="max-width:100%"><strong>Internal: </strong><br>{{ app.request.getSchemeAndHttpHost ~ image.getUrl( 'site', size, true ) }}</div>
+                            <div class="well well-sm no-margin-top small-margin-bottom" style="max-width:100%"><strong>External (tracked): </strong><br>{{ url( 'media_image_size', {'size':size,'slug': image.id } ) }}.{{ image.ext }}</div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="image-preview">
+            <div class="text-center">
+                <img class="img-responsive" src="{{ asset( image.getUrl( null, 'medium', true ) ) }}" />
+            </div>
+        </div>
+    </div>
+</div>
+<script type="application/javascript">
+    $('.sizes-container').css({'max-height': '400px', 'overflow-y' : 'auto'});
+    $('.sizes-container .well').css('word-wrap','break-word');
+    var android_chrome = /android.*chrom(e|ium)/.test(navigator.userAgent.toLowerCase());
+    if($.fn.slimscroll) {
+        if (android_chrome) {
+            var wheelStepInt = 100;
+        } else {
+            var wheelStepInt = 7;
+        }
+        $('.sizes-container').slimscroll({
+            'height': '100%',
+            'wheelStep': 7
+        });
+    }
+    loadIOSCheckboxes();
+    dataPostDesc();
+</script>

@@ -1,0 +1,66 @@
+{% if table_id is not defined %}{% set table_id = 'images-table' %}{% endif %}
+{% if show_title is not defined %}{% set show_title = true %}{% endif %}
+{% if show_width is not defined %}{% set show_width = true %}{% endif %}
+{% if show_height is not defined %}{% set show_height = true %}{% endif %}
+{% if show_rating is not defined %}{% set show_rating = true %}{% endif %}
+{% if show_comments is not defined %}{% set show_comments = true %}{% endif %}
+{% if show_position is not defined %}{% set show_position = true %}{% endif %}
+{% if show_active is not defined %}{% set show_active = true %}{% endif %}
+<tr data-row-id="{{ image.id }}" data-row-name="{{ image.title }}">
+    <td><input data-row-id="{{ image.id }}" data-row-name="{{ image.title }}" type="checkbox" class="uniform" data-row-check></td>
+    <td>
+        <a class="fancybox" rel="site-images" data-rel="fancybox-button" title="{{ image.title }}" href="{{ app.request.getSchemeAndHttpHost ~ asset( image.getUrl( 'site', 'original', true ) ) }}">
+            <div class="zoom">
+                <img src="{{ app.request.getSchemeAndHttpHost ~ asset( image.getUrl( 'site', 'tiny', true ) ) }}" alt="Photo" width="{{ image.getSizeWidth('tiny') }}" height="{{ image.getSizeHeight('tiny') }}">
+                <div class="zoom-icon"></div>
+            </div>
+        </a>
+    </td>
+    {% if show_title %}
+    <td>
+        {{ image.title ? image.title : 'N/A' }}
+    </td>
+    {% endif %}
+    {% if show_rating %}
+        <td class="text-center" title="{{ image.ratingsCount }} Ratings">
+            {{ numberFormat( image.rating, 2 ) }}
+        </td>
+    {% endif %}
+    {% if show_width %}
+    <td>
+        {{ image.width }}px
+    </td>
+    {% endif %}
+    {% if show_height %}
+    <td>
+        {{ image.height }}px
+    </td>
+    {% endif %}
+    {% if show_size %}
+    <td class="text-center">
+        {{ image.width }}x{{ image.height }}
+    </td>
+    {% endif %}
+    {% if show_active %}
+    <td class="text-center">
+        <i class="icon-{{ image.active ? 'check green' : 'remove red' }}"></i>
+    </td>
+    {% endif %}
+    {% if show_comments %}
+        <td class="text-center">
+            0
+        </td>
+    {% endif %}
+    <td>
+        <div class="btn-group">
+            <button type="button" class="access-actions btn btn-default dropdown-toggle" data-toggle="dropdown">
+                Actions <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" access="menu">
+                <li><a href="javascript:editImage(null,null,{{ image.id }},'{{ image.title }}');"><i class="icon-edit" title="Edit Image"></i> Edit</a></li>
+                <li><a href="javascript:viewImage(null,null,{{ image.id }},'{{ image.title }}');"><i class="icon-search blue" title="View Image"></i> Info</a></li>
+                <li><a href="javascript:removeImage(null,null,{{ image.id }},'{{ image.title }}');"><i class="icon-remove red" title="Remove Image"></i> Remove</a></li>
+            </ul>
+        </div>
+    </td>
+</tr>

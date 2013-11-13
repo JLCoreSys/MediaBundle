@@ -1,0 +1,14 @@
+{
+    "name": "jmccrei/MediaBundle",
+    "type": "symfony-bundle",
+    "description": "Base media options for a Symfony site",
+    "minimum-stability": "stable",
+    "authors": [
+        {
+            "name": "JLCoreSystems",
+            "email": "admin@jlcoresystems.com"
+        }
+    ]
+}
+
+
